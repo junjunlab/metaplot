@@ -1,6 +1,6 @@
 Package: metaplot
 Title: Metaplot for Merip-SEQ Peaks data
-Version: 0.0.0.1
+Version: 0.0.2
 Author: Jun Zhang
 Maintainer: Jun Zhang <3219030654@stu.cpu.edu.cn>
 BugReports: https://github.com/junjunlab/metaplot/issues
@@ -15,6 +15,7 @@ Imports:
     ggplot2,
     IRanges,
     magrittr,
+    reticulate,
     rtracklayer,
     S4Vectors,
     scales
