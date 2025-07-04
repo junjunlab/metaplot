@@ -14,7 +14,8 @@ metaPlot(
   geom_density_bw = NULL,
   geom_density_n = 512,
   col_alpha = 0.5,
-  line_color = "#CC0033"
+  line_color = "#CC0033",
+  line_width = 1
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ metaPlot(
 \item{col_alpha}{Numeric, alpha value for color transparency in the density plot. Default is \code{0.5}.}
 
 \item{line_color}{A color code for lines in the density plot if there is only one bed file. Default is \code{"#CC0033"}.}
+
+\item{line_width}{Line width for density curve. Default is \code{1}.}
 }
 \value{
 A list with two components:

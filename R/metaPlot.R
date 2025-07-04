@@ -16,6 +16,7 @@ globalVariables(c("end", "end.1", "f_len", "gene_id", "gene_name",
 #' @param geom_density_n Integer, number of equally spaced points at which the density is estimated. Default is `512`.
 #' @param col_alpha Numeric, alpha value for color transparency in the density plot. Default is `0.5`.
 #' @param line_color A color code for lines in the density plot if there is only one bed file. Default is `"#CC0033"`.
+#' @param line_width Line width for density curve. Default is `1`.
 #'
 #' @return A list with two components:
 #' \describe{
@@ -36,7 +37,8 @@ metaPlot <- function(bed_file = NULL,
                      geom_density_bw = NULL,
                      geom_density_n = 512,
                      col_alpha = 0.5,
-                     line_color = "#CC0033"){
+                     line_color = "#CC0033",
+                     line_width = 1){
   # ==============================================================================
   # overlap peaks and anno
   # ==============================================================================
