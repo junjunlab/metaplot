@@ -100,9 +100,12 @@ metaPlot <- function(bed_file = NULL,
     scale_y_continuous(expand = expansion(mult = c(0,0.1))) +
     scale_x_continuous(breaks = label.x,
                        labels = c("5'UTR","CDS","3'UTR")) +
+    theme_bw() +
     theme(axis.line = element_line(arrow = arrow(length = unit(0.25,"cm"),
                                                  type = "closed")),
           axis.text = element_text(colour = "black"),
+          strip.text = element_text(face = "bold",size = rel(1)),
+          panel.grid = element_blank(),
           axis.text.x = element_text(face = "bold")) +
     ylab("Peaks density") + xlab("")
 
