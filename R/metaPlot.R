@@ -2,17 +2,27 @@ globalVariables(c("end", "end.1", "f_len", "gene_id", "gene_name",
                   "p_mid", "rel_pos", "seqnames", "start", "start.1", ".",
                   "strand", "transcript_id", "type", "utr3.sf", "utr5.sf", "width"))
 
-#' metaplot
+#' MetaPlot Function
 #'
-#' @param bed_file bed format of peaks files.
-#' @param group_names vector of group names.
-#' @param features_anno features_anno object from prepare_features functions.
-#' @param scale_region whether do scale for each feature length, default FALSE.
-#' @param cut_ratio whether use custom ratio to plot feature regions,
-#' for eaxample: c(0.1,0.8,0.1).
-#' @param facet whether dispaly plot for each group, default FALSE.
+#' Generate a meta plot of peak densities across genomic features such as UTRs and CDS using BED files.
 #'
-#' @return A list with data and plot
+#' @param bed_file A list of BED file paths or data frames containing regions of interest. Default is `NULL`.
+#' @param group_names A vector of names corresponding to each BED file for grouping in the plot. Default is `NULL`, automatically set to `bed_file`.
+#' @param features_anno A features_anno object or file path used to map features. Default is `NULL`.
+#' @param scale_region Logical, whether to scale regions relative to feature lengths. Default is `FALSE`.
+#' @param cut_ratio A numeric value indicating the ratio to cut the regions for scaling. Default is `NULL`.
+#' @param facet Logical, whether to use faceting in the plot for separate groups. Default is `FALSE`.
+#' @param geom_density_bw Numeric, specifying the bandwidth for `geom_density`. Default is `NULL`, uses automatic bandwidth selection.
+#' @param geom_density_n Integer, number of equally spaced points at which the density is estimated. Default is `512`.
+#' @param col_alpha Numeric, alpha value for color transparency in the density plot. Default is `0.5`.
+#' @param line_color A color code for lines in the density plot if there is only one bed file. Default is `"#CC0033"`.
+#'
+#' @return A list with two components:
+#' \describe{
+#'   \item{data}{A combined data frame with relative positions of peaks against annotated features.}
+#'   \item{plot}{A ggplot2 object representing the density plot of peaks across the specified genomic features.}
+#' }
+#'
 #'
 #' @import ggplot2
 #'
@@ -22,7 +32,11 @@ metaPlot <- function(bed_file = NULL,
                      features_anno = NULL,
                      scale_region = FALSE,
                      cut_ratio = NULL,
-                     facet = FALSE){
+                     facet = FALSE,
+                     geom_density_bw = NULL,
+                     geom_density_n = 512,
+                     col_alpha = 0.5,
+                     line_color = "#CC0033"){
   # ==============================================================================
   # overlap peaks and anno
   # ==============================================================================
@@ -56,10 +70,27 @@ metaPlot <- function(bed_file = NULL,
 
   # check samples number
   if(length(bed_file) > 1){
-    density_layer <- geom_density(aes(x = rel_pos,fill = group_names),color = NA,alpha = 0.5)
+    if(is.null(geom_density_bw)){
+      density_layer <- geom_density(aes(x = rel_pos,fill = group_names,color = group_names),alpha = col_alpha,
+                                    linewidth = line_width,n = geom_density_n)
+    }else{
+      density_layer <- geom_density(aes(x = rel_pos,fill = group_names,color = group_names),alpha = col_alpha,
+                                    linewidth = line_width,
+                                    bw = geom_density_bw, n = geom_density_n)
+    }
   }else{
-    density_layer <- geom_density(aes(x = rel_pos),fill = "#CC0033",color = NA)
+    if(is.null(geom_density_bw)){
+      density_layer <- geom_density(aes(x = rel_pos),fill = line_color,color = line_color,alpha = col_alpha,
+                                    linewidth = line_width,n = geom_density_n)
+    }else{
+      density_layer <- geom_density(aes(x = rel_pos),fill = line_color,color = line_color,alpha = col_alpha,
+                                    linewidth = line_width,
+                                    bw = geom_density_bw, n = geom_density_n)
+    }
+
   }
+
+
 
   pdensity <-
     ggplot(plot_df) +

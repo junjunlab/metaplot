@@ -2,7 +2,7 @@
 % Please edit documentation in R/metaPlot.R
 \name{metaPlot}
 \alias{metaPlot}
-\title{metaplot}
+\title{MetaPlot Function}
 \usage{
 metaPlot(
   bed_file = NULL,
@@ -10,26 +10,41 @@ metaPlot(
   features_anno = NULL,
   scale_region = FALSE,
   cut_ratio = NULL,
-  facet = FALSE
+  facet = FALSE,
+  geom_density_bw = NULL,
+  geom_density_n = 512,
+  col_alpha = 0.5,
+  line_color = "#CC0033"
 )
 }
 \arguments{
-\item{bed_file}{bed format of peaks files.}
+\item{bed_file}{A list of BED file paths or data frames containing regions of interest. Default is \code{NULL}.}
 
-\item{group_names}{vector of group names.}
+\item{group_names}{A vector of names corresponding to each BED file for grouping in the plot. Default is \code{NULL}, automatically set to \code{bed_file}.}
 
-\item{features_anno}{features_anno object from prepare_features functions.}
+\item{features_anno}{A features_anno object or file path used to map features. Default is \code{NULL}.}
 
-\item{scale_region}{whether do scale for each feature length, default FALSE.}
+\item{scale_region}{Logical, whether to scale regions relative to feature lengths. Default is \code{FALSE}.}
 
-\item{cut_ratio}{whether use custom ratio to plot feature regions,
-for eaxample: c(0.1,0.8,0.1).}
+\item{cut_ratio}{A numeric value indicating the ratio to cut the regions for scaling. Default is \code{NULL}.}
 
-\item{facet}{whether dispaly plot for each group, default FALSE.}
+\item{facet}{Logical, whether to use faceting in the plot for separate groups. Default is \code{FALSE}.}
+
+\item{geom_density_bw}{Numeric, specifying the bandwidth for \code{geom_density}. Default is \code{NULL}, uses automatic bandwidth selection.}
+
+\item{geom_density_n}{Integer, number of equally spaced points at which the density is estimated. Default is \code{512}.}
+
+\item{col_alpha}{Numeric, alpha value for color transparency in the density plot. Default is \code{0.5}.}
+
+\item{line_color}{A color code for lines in the density plot if there is only one bed file. Default is \code{"#CC0033"}.}
 }
 \value{
-A list with data and plot
+A list with two components:
+\describe{
+\item{data}{A combined data frame with relative positions of peaks against annotated features.}
+\item{plot}{A ggplot2 object representing the density plot of peaks across the specified genomic features.}
+}
 }
 \description{
-metaplot
+Generate a meta plot of peak densities across genomic features such as UTRs and CDS using BED files.
 }

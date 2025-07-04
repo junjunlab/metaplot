@@ -2,7 +2,7 @@
 #'
 #' @param peaksfa path of fasta file for motif search.
 #' @param motif motif sequence for searching, regular expression is accepted,
-#' default "[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]" which means "RRACH".
+#' default `[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]` which means "RRACH".
 #' @param mid the position for calculation the relative position, default 3.
 #' @param pythonPath python path.
 #'
