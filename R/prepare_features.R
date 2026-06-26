@@ -53,6 +53,7 @@ prepare_features <- function(gtf_file = NULL,
 
   # caculate for positive and negtive strand
   pos_starnd <- features %>% dplyr::filter(strand == "+") %>%
+    dplyr::arrange(seqnames,start,end) %>%
     dplyr::group_by(transcript_id,type) %>%
     dplyr::mutate(tx_len = cumsum(width),.after = "width")
 
