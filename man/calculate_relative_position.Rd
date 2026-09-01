@@ -12,7 +12,9 @@ calculate_relative_position(
 )
 }
 \arguments{
-\item{bed_file}{bed format of peaks files.}
+\item{bed_file}{bed format of peaks files, or a \code{GRanges}/\code{data.frame} of
+peaks already loaded into R (must contain \code{seqnames}, \code{start}, \code{end}
+columns).}
 
 \item{features_anno}{features_anno object from prepare_features functions.}
 

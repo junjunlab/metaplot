@@ -12,30 +12,17 @@ CalculatePeaksRelativeDist <- function(peaksfa = NULL,
                                        motif = "[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]",
                                        mid = 3,
                                        pythonPath = NULL){
-  reticulate::py_config()
-
-  # check python
-  if(reticulate::py_available() == FALSE){
-    message("Please install python first!")
-  }else{
-    if(!is.null(pythonPath)){
-      reticulate::use_python(pythonPath)
-    }
-
-    # check re
-    if (!reticulate::py_module_available("re")) {
-      cat("Installing re ...\n")
-      reticulate::py_install("re")
-    }
-
-    # run code
-    pyscript.path = system.file("extdata", "CalculatePeaksRelativeDist.py", package = "metaplot")
-    reticulate::source_python(pyscript.path)
-
-    suppressMessages(
-      reticulate::py$CalculatePeaksRelativeDist(peaksfa = peaksfa,
-                                                motif = motif,
-                                                mid = as.integer(mid))
-    )
+  if(!ensure_python_module("re",pythonPath)){
+    return(invisible(NULL))
   }
+
+  # run code
+  pyscript.path = system.file("extdata", "CalculatePeaksRelativeDist.py", package = "metaplot")
+  reticulate::source_python(pyscript.path)
+
+  suppressMessages(
+    reticulate::py$CalculatePeaksRelativeDist(peaksfa = peaksfa,
+                                              motif = motif,
+                                              mid = as.integer(mid))
+  )
 }

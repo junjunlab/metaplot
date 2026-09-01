@@ -1,6 +1,8 @@
-globalVariables(c("end", "end.1", "f_len", "gene_id", "gene_name",
-                  "p_mid", "rel_pos", "seqnames", "start", "start.1", ".",
-                  "strand", "transcript_id", "type", "utr3.sf", "utr5.sf", "width"))
+globalVariables(c("f_len", "gene_id", "gene_name", "p_mid", "rel_pos",
+                  "seqnames", "start", "end", "width", "strand", ".",
+                  "transcript_id", "trans_len", "type", "utr3.sf", "utr5.sf",
+                  "peak_start", "peak_end", "feat_start", "feat_end",
+                  "feat_strand", "tx_len"))
 
 #' MetaPlot Function
 #'

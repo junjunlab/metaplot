@@ -19,11 +19,7 @@ prepare_features <- function(gtf_file = NULL,
     dplyr::select(seqnames,start,end,width,strand,type,gene_id,gene_name,transcript_id)
 
   # filter longest transcript
-  longest_trans <- gtf %>%
-    dplyr::filter(type %in% "exon") %>%
-    dplyr::group_by(gene_id,transcript_id) %>%
-    dplyr::summarise(trans_len = sum(width)) %>%
-    dplyr::slice_head(n = 1)
+  longest_trans <- .select_longest_transcripts(gtf)
 
   # filter features
   features <- gtf %>% dplyr::filter(transcript_id %in% longest_trans$transcript_id) %>%
@@ -66,4 +62,27 @@ prepare_features <- function(gtf_file = NULL,
   mer <- rbind(pos_starnd,neg_starnd) %>% GenomicRanges::GRanges()
 
   return(mer)
+}
+
+#' Select the longest transcript per gene by total exon length
+#'
+#' Sums exon widths per transcript, then keeps a single transcript per gene
+#' with the largest total exon length (ties broken by the first row
+#' encountered).
+#'
+#' @param gtf_df A data frame with at least `gene_id`, `transcript_id`,
+#' `type` and `width` columns (as produced from an imported GTF).
+#'
+#' @return A data frame with one row per gene: `gene_id`, `transcript_id`,
+#' `trans_len`.
+#' @keywords internal
+#' @noRd
+.select_longest_transcripts <- function(gtf_df){
+  gtf_df %>%
+    dplyr::filter(type %in% "exon") %>%
+    dplyr::group_by(gene_id,transcript_id) %>%
+    dplyr::summarise(trans_len = sum(width),.groups = "drop") %>%
+    dplyr::group_by(gene_id) %>%
+    dplyr::slice_max(trans_len,n = 1,with_ties = FALSE) %>%
+    dplyr::ungroup()
 }

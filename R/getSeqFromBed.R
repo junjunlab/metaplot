@@ -17,34 +17,21 @@ getSeqFromBed <- function(peak = NULL,
                           type = "bed",
                           a = 0,b = 0,minlen = 5,
                           pythonPath = NULL){
-  reticulate::py_config()
-
-  # check python
-  if(reticulate::py_available() == FALSE){
-    message("Please install python first!")
-  }else{
-    if(!is.null(pythonPath)){
-      reticulate::use_python(pythonPath)
-    }
-
-    # check pyfaidx
-    if (!reticulate::py_module_available("pyfaidx")) {
-      cat("Installing pyfaidx ...\n")
-      reticulate::py_install("pyfaidx")
-    }
-
-    # run code
-    pyscript.path = system.file("extdata", "getSeqFromBed.py", package = "metaplot")
-    reticulate::source_python(pyscript.path)
-
-    suppressMessages(
-      reticulate::py$GetPeaksFa(peak = peak,
-                                genomefie = genomefie,
-                                outfasta = outfasta,
-                                type = type,
-                                a = as.integer(a),
-                                b = as.integer(b),
-                                minlen = as.integer(minlen))
-    )
+  if(!ensure_python_module("pyfaidx",pythonPath)){
+    return(invisible(NULL))
   }
+
+  # run code
+  pyscript.path = system.file("extdata", "getSeqFromBed.py", package = "metaplot")
+  reticulate::source_python(pyscript.path)
+
+  suppressMessages(
+    reticulate::py$GetPeaksFa(peak = peak,
+                              genomefie = genomefie,
+                              outfasta = outfasta,
+                              type = type,
+                              a = as.integer(a),
+                              b = as.integer(b),
+                              minlen = as.integer(minlen))
+  )
 }

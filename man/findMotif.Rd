@@ -14,7 +14,7 @@ findMotif(
 \item{peaksfa}{path of fasta file for motif search}
 
 \item{motif}{motif sequence for searching, regular expression is accepted,
-default "\link{G|A}AC\link{A|C|T}|\link{T|G|A}GT\link{C|T}" which means "RRACH".}
+default \code{"[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]"} which means "RRACH".}
 
 \item{pythonPath}{python path.}
 }
