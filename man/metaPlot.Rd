@@ -19,15 +19,18 @@ metaPlot(
 )
 }
 \arguments{
-\item{bed_file}{A list of BED file paths or data frames containing regions of interest. Default is \code{NULL}.}
+\item{bed_file}{A list of BED file paths or data frames containing regions of interest,
+or a single BED file path / data frame / \code{GRanges} object. Default is \code{NULL}.}
 
-\item{group_names}{A vector of names corresponding to each BED file for grouping in the plot. Default is \code{NULL}, automatically set to \code{bed_file}.}
+\item{group_names}{A vector of names corresponding to each BED file for grouping in the plot.
+Default is \code{NULL}, automatically set to \code{bed_file}.}
 
 \item{features_anno}{A features_anno object or file path used to map features. Default is \code{NULL}.}
 
 \item{scale_region}{Logical, whether to scale regions relative to feature lengths. Default is \code{FALSE}.}
 
-\item{cut_ratio}{A numeric value indicating the ratio to cut the regions for scaling. Default is \code{NULL}.}
+\item{cut_ratio}{A numeric value indicating the ratio to cut the regions for scaling.
+Only used when \code{scale_region = TRUE}. Default is \code{NULL}.}
 
 \item{facet}{Logical, whether to use faceting in the plot for separate groups. Default is \code{FALSE}.}
 

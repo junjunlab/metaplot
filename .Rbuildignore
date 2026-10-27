@@ -1,3 +1,5 @@
 ^metaplot\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^data-raw$
+^\.Rhistory$

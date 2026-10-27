@@ -6,7 +6,7 @@
 \usage{
 CalculatePeaksRelativeDist(
   peaksfa = NULL,
-  motif = "[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]",
+  motif = "[GA][GA]AC[ACT]|[TGA]GT[CT][CT]",
   mid = 3,
   pythonPath = NULL
 )
@@ -15,7 +15,7 @@ CalculatePeaksRelativeDist(
 \item{peaksfa}{path of fasta file for motif search.}
 
 \item{motif}{motif sequence for searching, regular expression is accepted,
-default \verb{[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]} which means "RRACH".}
+default \code{"[GA][GA]AC[ACT]|[TGA]GT[CT][CT]"} which means "RRACH".}
 
 \item{mid}{the position for calculation the relative position, default 3.}
 

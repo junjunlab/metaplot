@@ -8,7 +8,8 @@ calculate_relative_position(
   bed_file = NULL,
   features_anno = NULL,
   scale_region = FALSE,
-  cut_ratio = NULL
+  cut_ratio = NULL,
+  scale_factors = NULL
 )
 }
 \arguments{
@@ -22,6 +23,11 @@ columns).}
 
 \item{cut_ratio}{whether use custom ratio to plot feature regions,
 for eaxample: c(0.1,0.8,0.1), default NULL.}
+
+\item{scale_factors}{optional named numeric vector with \code{utr5.sf} and
+\code{utr3.sf} entries. When \code{NULL} (the default) the factors are estimated from
+\code{features_anno}. Pass a precomputed value when several peak files must share
+exactly the same x-axis scaling (this is what \code{metaPlot()} does).}
 }
 \value{
 data frame

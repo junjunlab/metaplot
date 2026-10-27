@@ -17,6 +17,16 @@ getSeqFromBed <- function(peak = NULL,
                           type = "bed",
                           a = 0,b = 0,minlen = 5,
                           pythonPath = NULL){
+  .check_file_arg(peak,"peak")
+  .check_file_arg(genomefie,"genomefie")
+
+  if(is.null(outfasta) || !is.character(outfasta) || length(outfasta) != 1 ||
+     is.na(outfasta) || !nzchar(outfasta)){
+    stop("`outfasta` must be a single output file path.",call. = FALSE)
+  }
+
+  type <- match.arg(type,c("bed","narrowpeak"))
+
   if(!ensure_python_module("pyfaidx",pythonPath)){
     return(invisible(NULL))
   }
@@ -34,4 +44,28 @@ getSeqFromBed <- function(peak = NULL,
                               b = as.integer(b),
                               minlen = as.integer(minlen))
   )
+}
+
+#' Check that an argument refers to an existing file
+#'
+#' @param path Value supplied by the caller.
+#' @param arg Name of the argument, used in the error message.
+#'
+#' @return `TRUE` (invisibly) when the file exists, otherwise an error.
+#' @keywords internal
+#' @noRd
+.check_file_arg <- function(path,arg){
+  if(is.null(path)){
+    stop("`",arg,"` must be supplied.",call. = FALSE)
+  }
+
+  if(!is.character(path) || length(path) != 1 || is.na(path)){
+    stop("`",arg,"` must be a single file path.",call. = FALSE)
+  }
+
+  if(!file.exists(path)){
+    stop("`",arg,"` does not exist: ",path,call. = FALSE)
+  }
+
+  invisible(TRUE)
 }

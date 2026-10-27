@@ -1,6 +1,5 @@
 test_that("ensure_python_module reports and returns FALSE when python is unavailable", {
   testthat::local_mocked_bindings(
-    py_config = function(...) invisible(NULL),
     py_available = function(...) FALSE,
     .package = "reticulate"
   )
@@ -15,14 +14,13 @@ test_that("ensure_python_module reports and returns FALSE when python is unavail
 test_that("ensure_python_module installs a missing module", {
   installed <- FALSE
   testthat::local_mocked_bindings(
-    py_config = function(...) invisible(NULL),
     py_available = function(...) TRUE,
     py_module_available = function(...) FALSE,
     py_install = function(...) installed <<- TRUE,
     .package = "reticulate"
   )
 
-  result <- ensure_python_module("re")
+  result <- ensure_python_module("pyfaidx")
 
   expect_true(result)
   expect_true(installed)
@@ -31,7 +29,6 @@ test_that("ensure_python_module installs a missing module", {
 test_that("ensure_python_module skips installation when the module is already present", {
   installed <- FALSE
   testthat::local_mocked_bindings(
-    py_config = function(...) invisible(NULL),
     py_available = function(...) TRUE,
     py_module_available = function(...) TRUE,
     py_install = function(...) installed <<- TRUE,
@@ -44,12 +41,11 @@ test_that("ensure_python_module skips installation when the module is already pr
   expect_false(installed)
 })
 
-test_that("ensure_python_module forwards a custom python path", {
+test_that("ensure_python_module forwards a custom python path before initialising python", {
   used_path <- NULL
   testthat::local_mocked_bindings(
-    py_config = function(...) invisible(NULL),
-    py_available = function(...) TRUE,
     use_python = function(python, ...) used_path <<- python,
+    py_available = function(...) TRUE,
     py_module_available = function(...) TRUE,
     .package = "reticulate"
   )
@@ -57,4 +53,17 @@ test_that("ensure_python_module forwards a custom python path", {
   ensure_python_module("re", pythonPath = "/usr/bin/python3")
 
   expect_equal(used_path, "/usr/bin/python3")
+})
+
+test_that("ensure_python_module does not try to pip-install a standard library module", {
+  installed <- FALSE
+  testthat::local_mocked_bindings(
+    py_available = function(...) TRUE,
+    py_module_available = function(...) FALSE,
+    py_install = function(...) installed <<- TRUE,
+    .package = "reticulate"
+  )
+
+  expect_error(ensure_python_module("re"), "standard library")
+  expect_false(installed)
 })

@@ -7,9 +7,11 @@
 plotRelMotif(relpos = NULL, exp = NULL, linewidth = 0.5)
 }
 \arguments{
-\item{relpos}{a list of relative position from CalculatePeaksRelativeDist function.}
+\item{relpos}{a list of relative position from CalculatePeaksRelativeDist function.
+A single numeric vector is also accepted and treated as one sample.}
 
-\item{exp}{sample name.}
+\item{exp}{sample name. Default is \code{NULL}, which uses the names of \code{relpos}
+or \code{sample1}, \code{sample2}, ... when the list is unnamed.}
 
 \item{linewidth}{line width.}
 }

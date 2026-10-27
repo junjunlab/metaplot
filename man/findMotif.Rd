@@ -6,7 +6,7 @@
 \usage{
 findMotif(
   peaksfa = NULL,
-  motif = "[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]",
+  motif = "[GA][GA]AC[ACT]|[TGA]GT[CT][CT]",
   pythonPath = NULL
 )
 }
@@ -14,7 +14,7 @@ findMotif(
 \item{peaksfa}{path of fasta file for motif search}
 
 \item{motif}{motif sequence for searching, regular expression is accepted,
-default \code{"[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]"} which means "RRACH".}
+default \code{"[GA][GA]AC[ACT]|[TGA]GT[CT][CT]"} which means "RRACH".}
 
 \item{pythonPath}{python path.}
 }

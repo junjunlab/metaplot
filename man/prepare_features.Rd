@@ -15,7 +15,8 @@ prepare_features(
 \item{features_name}{The feature name in gtf file,
 default for ensembl database gtf file
 features_name= c("five_prime_utr","CDS","three_prime_utr"), if you use
-ucsc database gtf file, you should change it to c("5UTR","CDS","3UTR").}
+ucsc database gtf file, you should change it to c("5UTR","CDS","3UTR").
+Must be a character vector of length 3, given in the order 5'UTR, CDS, 3'UTR.}
 }
 \value{
 GRanges object

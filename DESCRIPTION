@@ -1,8 +1,9 @@
 Package: metaplot
-Title: Metaplot for Merip-SEQ Peaks data
+Title: Metaplot for MeRIP-Seq Peak Data
 Version: 0.0.3
 Author: Jun Zhang
 Maintainer: Jun Zhang <3219030654@stu.cpu.edu.cn>
+URL: https://github.com/junjunlab/metaplot
 BugReports: https://github.com/junjunlab/metaplot/issues
 Description: metaPlot for m6A peaks files.
 License: MIT + file LICENSE
@@ -19,7 +20,9 @@ Imports:
     reticulate,
     rtracklayer,
     S4Vectors,
-    scales
+    scales,
+    stats,
+    utils
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

@@ -1,17 +1,48 @@
 import re
 
-def findMotif(peaksfa,motif='[G|A][G|A]AC[A|C|T]|[T|G|A]GT[C|T][C|T]'):
-    # save in list
-    relpos = []
-    # open fa
-    with open(peaksfa,'r') as seq:
-        for line in seq:
-            line = line.replace('\n','')
-            if line.startswith('>'):
-                next
-            # search all motif
-            pattern = re.compile(motif,flags=re.IGNORECASE)
-            pos_res = pattern.findall(line)
-            # save in list
-            relpos.extend(pos_res)
-    return relpos
+# default motif: "RRACH" plus its reverse complement "DGGYY"
+DEFAULT_MOTIF = r"[GA][GA]AC[ACT]|[TGA]GT[CT][CT]"
+
+
+def iter_fasta(path):
+    """Yield ``(header, sequence)`` pairs from a FASTA file.
+
+    Sequences wrapped over several lines are joined back into one string;
+    a header line is never treated as sequence data.
+    """
+    if path is None:
+        raise ValueError("a FASTA file path must be supplied")
+
+    name = None
+    chunks = []
+
+    with open(path, "r") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                if name is not None:
+                    yield name, "".join(chunks)
+                name = line[1:]
+                chunks = []
+            elif name is None:
+                # sequence before the first header: keep it under a dummy name
+                name = ""
+                chunks.append(line)
+            else:
+                chunks.append(line)
+
+    if name is not None:
+        yield name, "".join(chunks)
+
+
+def findMotif(peaksfa, motif=DEFAULT_MOTIF):
+    """Return every motif occurrence found in the FASTA file."""
+    pattern = re.compile(motif, flags=re.IGNORECASE)
+
+    hits = []
+    for _, seq in iter_fasta(peaksfa):
+        hits.extend(pattern.findall(seq))
+
+    return hits
