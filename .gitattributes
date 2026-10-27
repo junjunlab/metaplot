@@ -1,0 +1,8 @@
+# Normalise line endings so that the working tree, the repository and the
+# files pushed through the GitHub API all use LF (R packages are LF anyway).
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.gz binary
+*.rds binary
